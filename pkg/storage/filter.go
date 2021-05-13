@@ -27,7 +27,7 @@ func CheckIP(ip *models.IP) bool {
 		pollURL = "https://httpbin.org/get"
 	} else {
 		testIP = "http://" + ip.Data
-		pollURL = "http://httpbin.org/get"
+		pollURL = "https://httpbin.org/get"
 	}
 	clog.Info(testIP)
 	begin := time.Now()

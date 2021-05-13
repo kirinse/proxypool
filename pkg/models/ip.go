@@ -16,6 +16,8 @@ type IP struct {
 	UpdateTime time.Time `xorm:"NOT NULL" json:"-"`
 }
 
+var minSpeed = 10000
+
 // NewIP .
 func NewIP() *IP {
 	//init the speed to 100 Sec
@@ -85,7 +87,7 @@ func GetOne(ip string) *IP {
 func getAll() ([]*IP, error) {
 	tmpIp := make([]*IP, 0)
 
-	err := x.Where("speed <= 1000").Find(&tmpIp)
+	err := x.Where("speed <= ?", minSpeed).Find(&tmpIp)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +103,7 @@ func findAll(value string) ([]*IP, error) {
 	tmpIp := make([]*IP, 0)
 	switch value {
 	case "http":
-		err := x.Where("speed <= 1000 and type1=?", "http").Find(&tmpIp)
+		err := x.Where("speed <= ? and type1=?", minSpeed, "http").Find(&tmpIp)
 		if err != nil {
 			return tmpIp, err
 		}
@@ -111,7 +113,7 @@ func findAll(value string) ([]*IP, error) {
 		if HasHttps == false {
 			return tmpIp, nil
 		}
-		err := x.Where("speed <= 1000 and type1=?", "https").Find(&tmpIp)
+		err := x.Where("speed <= ? and type1=?", minSpeed, "https").Find(&tmpIp)
 		if err != nil {
 			fmt.Println(err.Error())
 			return tmpIp, err

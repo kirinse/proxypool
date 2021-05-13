@@ -13,7 +13,8 @@ func PLPSSL() (result []*models.IP) {
 	doc, _ := htmlquery.LoadURL(pollURL)
 	trNode, err := htmlquery.Find(doc, "//div[@class='hfeed site']//table[@class='bg']//tbody//tr")
 	if err != nil {
-		clog.Warn(err.Error())
+		clog.Error(0, "[PLP SSL] ip.Data = %s", err)
+		return
 	}
 	for i := 3; i < len(trNode); i++ {
 		tdNode, _ := htmlquery.Find(trNode[i], "//td")
